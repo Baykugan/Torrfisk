@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "Torrfisk"
+version = "0.1.0"
+description = "A chess engine written in Python"
+authors = ["Even Ytterli Tokle <Even.Ytterli.Tokle@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+[tool.poetry.group.dev.dependencies]
+black = "^25.1.0"
+pylint = "^3.3.4"
+isort = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line-length = 88
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint]
+disable = ["C0114", "C0115", "C0116", "E1133"]
+max-line-length = 88
