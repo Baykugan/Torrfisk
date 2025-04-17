@@ -28,7 +28,7 @@ def make_bitboards() -> np.ndarray:
 def print_pieces(
     bitboards: np.ndarray,
     /,
-) -> None:
+) -> None:  # pragma: no cover
     """Print the bitboards."""
 
     bitboards = np.append(bitboards, np.iinfo(np.uint64).max)
@@ -48,7 +48,7 @@ def print_pieces(
     print("", end="", flush=True)
 
 
-def print_board() -> None:
+def print_board() -> None:  # pragma: no cover
     """Print the board."""
     print(
         "\033[H\033[J"

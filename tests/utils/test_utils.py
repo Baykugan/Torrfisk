@@ -4,6 +4,21 @@ import pytest
 from torrfisk.utils import popcount
 
 
+# popcount is a numba-vectorized function, so we need to test both the pure-Python
+# implementation and the compiled ufunc.
+@pytest.mark.parametrize(
+    "input, expected",
+    [
+        (0, 0),
+        (np.uint8(5), np.uint8(2)),
+    ],
+)
+def test_popcount_kernel(input, expected):
+    """Exercise the pure-Python Hamming-weight loop."""
+    result = popcount.__wrapped__(input)
+    assert result == expected, f"Expected {expected}, got {result}"
+
+
 @pytest.mark.parametrize(
     "input, expected",
     [
@@ -20,7 +35,7 @@ from torrfisk.utils import popcount
         (np.array([], dtype=np.uint8), np.array([], dtype=np.uint8)),
     ],
 )
-def test_popcount(input, expected):
-    """Test the popcount function."""
+def test_popcount_ufunc(input, expected):
+    """Test the compiled ufunc path on various shapes and dtypes."""
     result = popcount(input)
     assert np.array_equal(result, expected), f"Expected {expected}, got {result}"

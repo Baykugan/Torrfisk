@@ -15,6 +15,7 @@ black = "^25.1.0"
 pylint = "^3.3.4"
 isort = "^6.0.0"
 pytest = "^8.3.5"
+pytest-cov = "^6.1.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -30,3 +31,11 @@ profile = "black"
 [tool.pylint]
 disable = ["C0114", "C0115", "C0116", "E1133"]
 max-line-length = 88
+
+[tool.pytest.ini_options]
+addopts = "--cov=torrfisk --cov-report=term"
+
+[tool.coverage.run]
+omit = [
+  "torrfisk/enums.py",
+]
