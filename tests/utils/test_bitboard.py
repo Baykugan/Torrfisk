@@ -1,0 +1,40 @@
+import numpy as np
+import pytest
+
+from torrfisk.utils import make_bitboards
+
+
+def test_make_bitboards_shape_and_dtype():
+    bitboards = make_bitboards()
+    # must be a length‑12 uint64 array
+    assert isinstance(bitboards, np.ndarray)
+    assert bitboards.shape == (12,)
+    assert bitboards.dtype == np.uint64
+
+
+def test_make_bitboards_popcounts():
+    bitboards = make_bitboards()
+    # expected number of bits per piece type:
+    # [wp, wn, wb, wr, wq, wk, bp, bn, bb, br, bq, bk]
+    expected = [8, 2, 2, 2, 1, 1, 8, 2, 2, 2, 1, 1]
+    actual = [bin(int(x)).count("1") for x in bitboards]
+    assert actual == expected
+
+
+def test_make_bitboards_exact():
+    bitboards = make_bitboards()
+    expected = [
+        np.uint64(0b0000000000000000000000000000000000000000000000001111111100000000),
+        np.uint64(0b0000000000000000000000000000000000000000000000000000000001000010),
+        np.uint64(0b0000000000000000000000000000000000000000000000000000000000100100),
+        np.uint64(0b0000000000000000000000000000000000000000000000000000000010000001),
+        np.uint64(0b0000000000000000000000000000000000000000000000000000000000010000),
+        np.uint64(0b0000000000000000000000000000000000000000000000000000000000001000),
+        np.uint64(0b0000000011111111000000000000000000000000000000000000000000000000),
+        np.uint64(0b0100001000000000000000000000000000000000000000000000000000000000),
+        np.uint64(0b0010010000000000000000000000000000000000000000000000000000000000),
+        np.uint64(0b1000000100000000000000000000000000000000000000000000000000000000),
+        np.uint64(0b0001000000000000000000000000000000000000000000000000000000000000),
+        np.uint64(0b0000100000000000000000000000000000000000000000000000000000000000),
+    ]
+    np.testing.assert_array_equal(bitboards, expected)
